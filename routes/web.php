@@ -13,7 +13,7 @@ use App\Http\Controllers\{
     HomeController
 };
 
-Route::get('/', fn() => redirect()->route('orders.index'));
+Route::get('/', fn() => redirect()->route('kasir.dashboard'));
 
 Auth::routes();
 
