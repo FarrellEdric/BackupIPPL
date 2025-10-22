@@ -13,7 +13,6 @@ use Illuminate\Foundation\Http\Middleware\TrimStrings;
 use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance;
-
 class Kernel extends HttpKernel
 {
     /**
@@ -22,7 +21,7 @@ class Kernel extends HttpKernel
      * @var array<int, class-string|string>
      */
     protected $middleware = [
-        // \App\Http\Middleware\TrustHosts::class,
+            // \App\Http\Middleware\TrustHosts::class,
         TrustProxies::class,
         \Illuminate\Http\Middleware\HandleCors::class,
         PreventRequestsDuringMaintenance::class,
@@ -48,7 +47,7 @@ class Kernel extends HttpKernel
 
         'api' => [
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-            \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
+            \Illuminate\Routing\Middleware\ThrottleRequests::class . ':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
@@ -68,10 +67,7 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'role' => RoleMiddleware::class,
     ];
-    protected $routeMiddleware = [
-    'auth' => \App\Http\Middleware\Authenticate::class,
-    'role' => RoleMiddleware::class, // ✅ pastikan ada
-];
 
 }

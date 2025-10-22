@@ -23,7 +23,7 @@
                             <div class="card border-0 shadow-sm text-center">
                                 <div class="card-body">
                                     <h6 class="text-muted">Transaksi Hari Ini</h6>
-                                    <h3 class="fw-bold text-primary">12</h3>
+                                    <h3 class="fw-bold text-primary">{{ $totalTransaksiHariIni }}</h3>
                                 </div>
                             </div>
                         </div>
@@ -33,7 +33,7 @@
                             <div class="card border-0 shadow-sm text-center">
                                 <div class="card-body">
                                     <h6 class="text-muted">Total Pendapatan</h6>
-                                    <h3 class="fw-bold text-success">Rp 1.250.000</h3>
+                                    <h3 class="fw-bold text-success">Rp {{ number_format($totalPendapatan, 0, ',', '.') }}</h3>
                                 </div>
                             </div>
                         </div>
@@ -43,7 +43,7 @@
                             <div class="card border-0 shadow-sm text-center">
                                 <div class="card-body">
                                     <h6 class="text-muted">Produk Terjual</h6>
-                                    <h3 class="fw-bold text-info">47</h3>
+                                    <h3 class="fw-bold text-info">{{ $produkTerjual }}</h3>
                                 </div>
                             </div>
                         </div>
@@ -69,20 +69,27 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>19 Okt 2025</td>
-                                <td>Ahmad</td>
-                                <td>Rp 150.000</td>
-                                <td><span class="badge bg-success">Selesai</span></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>19 Okt 2025</td>
-                                <td>Budi</td>
-                                <td>Rp 75.000</td>
-                                <td><span class="badge bg-warning text-dark">Pending</span></td>
-                            </tr>
+                            @forelse($transaksiTerakhir as $index => $t)
+                                <tr>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $t->created_at->format('d M Y') }}</td>
+                                    <td>{{ $t->nama_pelanggan ?? '-' }}</td>
+                                    <td>Rp {{ number_format($t->total_harga, 0, ',', '.') }}</td>
+                                    <td>
+                                        @if($t->status == 'selesai')
+                                            <span class="badge bg-success">Selesai</span>
+                                        @elseif($t->status == 'pending')
+                                            <span class="badge bg-warning text-dark">Pending</span>
+                                        @else
+                                            <span class="badge bg-secondary">{{ ucfirst($t->status) }}</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="text-center text-muted">Belum ada transaksi</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
 
