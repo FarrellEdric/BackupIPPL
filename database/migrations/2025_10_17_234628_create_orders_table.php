@@ -12,14 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-        $table->id();
-        $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
-        $table->string('customer_name')->nullable();
-        $table->decimal('total', 14, 2)->default(0);
-        $table->enum('payment_status', ['pending','paid','failed'])->default('pending');
-        $table->enum('payment_method', ['cash','qr','bank_transfer','other'])->default('cash');
-        $table->string('transaction_id')->nullable();
-        $table->timestamps();
+            $table->id();
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
+            $table->string('customer_name')->nullable();
+            $table->decimal('total', 14, 2)->default(0);
+
+            // Tambahan kolom status supaya query tidak error
+            $table->enum('status', ['unpaid','paid','other'])->default('unpaid');
+
+            $table->enum('payment_status', ['pending','paid','failed'])->default('pending');
+            $table->enum('payment_method', ['cash','qr','bank_transfer','other'])->default('cash');
+            $table->string('transaction_id')->nullable();
+            $table->timestamps();
         });
     }
 

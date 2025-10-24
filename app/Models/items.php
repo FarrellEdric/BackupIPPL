@@ -2,14 +2,29 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class items extends Model
+class Items extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['category_id', 'name', 'description', 'price', 'stock', 'availability'];
+    protected $table = 'items';
+
+    // Jangan masukin 'id' ke fillable
+    protected $fillable = [
+        'category_id',
+        'name',
+        'description',
+        'price',
+        'stock',
+        'availability',
+    ];
+
+    // Tambahkan konfigurasi primary key biar Laravel yakin
+    protected $primaryKey = 'id';
+    public $incrementing = true;
+    protected $keyType = 'int';
 
     public function category()
     {
